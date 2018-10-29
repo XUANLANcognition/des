@@ -13,5 +13,7 @@ make clean
 enCipher(plaintext, key, ciphertext)
 
 plaintext : 明文
+
 key : 密钥
+
 ciphertext : 密文
