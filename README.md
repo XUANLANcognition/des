@@ -8,12 +8,22 @@ make
 make clean
 ```
 
-##使用接口：
+## 使用接口：
 
-enCipher(plaintext, key, ciphertext)
+1. enCipher(plaintext, key, ciphertext)
 
-plaintext : 明文
+    plaintext : 明文
 
-key : 密钥
+    key : 密钥
 
-ciphertext : 密文
+    ciphertext : 密文
+
+2. deCipher(ciphertext, key, plaintext)
+
+    ciphertext : 密文
+
+    key : 密钥
+
+    plaintext : 明文
+
+
