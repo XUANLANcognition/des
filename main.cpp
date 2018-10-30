@@ -12,10 +12,21 @@ int main(){
   // 密文
   uint8_t ciphertext[8];
 
+  uint8_t test_ciphertext[8] = {0xc0, 0xb7, 0xa8, 0xd0, 0x5f, 0x3a, 0x82, 0x9c};
+
+  uint8_t test_plaintext[8];
+
   enCipher(plaintext, key, ciphertext);
 
   for(int i = 0; i < 8; i++) {
-    cout << hex << (int)ciphertext[i] << " ";
+    cout << hex << "0x" << (int)ciphertext[i] << ", ";
+  }
+  cout << endl;
+
+  deCipher(test_ciphertext, key, test_plaintext);
+
+  for(int i = 0; i < 8; i++) {
+    cout << hex << "0x" << (int)test_plaintext[i] << ", ";
   }
   cout << endl;
 

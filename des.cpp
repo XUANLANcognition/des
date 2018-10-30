@@ -103,6 +103,7 @@ void PasteLeftRight(uint8_t *l, int t1, uint8_t *r, int t2, uint8_t *b) {
   }
 }
 
+// generate round keys(16)
 
 void geneRoundKey(uint8_t initKey[8]) {
 
@@ -233,4 +234,64 @@ void enCipher(uint8_t p[8], uint8_t k[8], uint8_t c[8]) {
     + tmpBothMid[i + 7] * (1 << 0);
   }
 
+}
+
+void deCipher(uint8_t c[8], uint8_t k[8], uint8_t p[8]) {
+
+  uint8_t tmpLeft[32];
+  uint8_t tmpRight[32];
+  uint8_t tmpMid[32];
+  uint8_t tmpMid1[32];
+  uint8_t tmpBoth[64];
+  uint8_t tmpBothMid[64];
+  uint8_t tmpF[48];
+
+  // geneary round keys
+  geneRoundKey(k);
+  // IP repalce
+  replaceBit(c, tmpBoth, 64, replaceIP);
+  memcpy(tmpLeft, tmpBoth, 32 * sizeof(uint8_t));
+  memcpy(tmpRight, tmpBoth + 32, 32 * sizeof(uint8_t));
+
+  // round start! (15 + 1)
+
+  for(int round = 15; round > 0; round--) {
+
+    replace(tmpRight, tmpF, 48, E);
+
+    XOR(tmpF, roundKey[round], tmpF, 48);
+
+    replaceS(tmpF, tmpMid);
+
+    replace(tmpMid, tmpMid1, 32, P);
+
+    XOR(tmpLeft, tmpMid1, tmpMid1, 32);
+
+    memcpy(tmpLeft, tmpRight, 32);
+
+    memcpy(tmpRight, tmpMid1, 32);
+
+  }
+
+  replace(tmpRight, tmpF, 48, E);
+  XOR(tmpF, roundKey[0], tmpF, 48);
+  replaceS(tmpF, tmpMid);
+  replace(tmpMid, tmpMid1, 32, P);
+  XOR(tmpLeft, tmpMid1, tmpLeft, 32);
+
+  memcpy(tmpBoth, tmpLeft, 32);
+  memcpy(tmpBoth + 32, tmpRight, 32);
+
+  replace(tmpBoth, tmpBothMid, 64, replaceIPReverse);
+
+  for (int i = 0; i < 64; i += 8)  {
+    p[i / 8] =  tmpBothMid[i] * (1 << 7) 
+    + tmpBothMid[i + 1] * (1 << 6) 
+    + tmpBothMid[i + 2] * (1 << 5) 
+    + tmpBothMid[i + 3] * (1 << 4) 
+    + tmpBothMid[i + 4] * (1 << 3) 
+    + tmpBothMid[i + 5] * (1 << 2) 
+    + tmpBothMid[i + 6] * (1 << 1) 
+    + tmpBothMid[i + 7] * (1 << 0);
+  }
 }

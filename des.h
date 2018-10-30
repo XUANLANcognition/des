@@ -5,23 +5,86 @@
 #include <iostream>
 #include <string.h>
 
+// round key the frist repalce (left)
+
+/* 
+  t1 origin
+  t2 result
+  t3 result length
+  t4 box
+*/
+
 void replaceBit(uint8_t *t1, uint8_t *t2, int t3, const uint8_t *t4);
 
 void replace(uint8_t *t1, uint8_t *t2, int t3, const uint8_t *t4);
 
+/*
+  t1  in1
+  t2  in2
+  t3  out
+  l  length
+*/
+
 void XOR(uint8_t *t1, uint8_t *t2, uint8_t *t3, int l);
+
+/*
+  t1  origin
+  t2  origin length
+  t3  step
+*/
 
 void moveLeft(uint8_t *t1, int t2, int t3);
 
+/*
+  l left
+  t1 left length
+  r right
+  t2 right length
+  b both
+*/
+
 void PasteLeftRight(uint8_t *l, int t1, uint8_t *r, int t2, uint8_t *b);
+
+// generate round keys(16)
 
 void geneRoundKey(uint8_t initKey[8]);
 
+/*
+  dec to bin
+  d decimal
+  b binary
+*/
+
 void decTobin(uint8_t d[8], uint8_t b[32]);
+
+/*
+  t1  in
+  t2  out
+*/
 
 void replaceS(uint8_t *t1, uint8_t *t2);
 
+/*
+main interface : enciphering
+********************************************************************************
+  p plaintext
+  k key
+  c ciphertext
+********************************************************************************
+*/
+
 void enCipher(uint8_t p[8], uint8_t k[8], uint8_t c[8]);
+
+/*
+main interface : deciphering
+********************************************************************************
+  c ciphertext
+  k key
+  p plaintext
+********************************************************************************
+*/
+
+void deCipher(uint8_t c[8], uint8_t k[8], uint8_t p[8]);
 
 // IP repalce and reverse
 
